@@ -413,22 +413,16 @@ async function submitForm(){
   btn.textContent='Enviando...';
   const data=collectData();
   try{
-    const response=await fetch(WEBHOOK,{
+    await fetch(WEBHOOK,{
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body:JSON.stringify(data)
+      body:JSON.stringify(data),
+      mode:'no-cors'
     });
-    const result=await response.json();
-    if(result.status==='ok'){
-      document.getElementById('form-body').style.display='none';
-      document.getElementById('success-wrap').style.display='block';
-      document.getElementById('success-name').textContent=data.nombres+' '+data.apellido_paterno;
-      window.scrollTo({top:0,behavior:'smooth'});
-    } else {
-      alert('El servidor respondió con un error. Por favor intente nuevamente.');
-      btn.disabled=false;
-      btn.textContent='Enviar respuestas';
-    }
+    document.getElementById('form-body').style.display='none';
+    document.getElementById('success-wrap').style.display='block';
+    document.getElementById('success-name').textContent=data.nombres+' '+data.apellido_paterno;
+    window.scrollTo({top:0,behavior:'smooth'});
   } catch(e){
     alert('Error al enviar las respuestas. Verifica tu conexión a internet e intenta nuevamente.');
     btn.disabled=false;
